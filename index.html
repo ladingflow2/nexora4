@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>(function(){var s=Math.min(screen.width,screen.height);if(window.innerWidth<=820||s<=600){location.replace("mobile.html"+location.hash);}})();</script>
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<title>Nexora Marketing Digital</title>
+<style>
+  :root { --gold:#f5c518; --bg:#000; --fg:#fff; box-sizing:border-box; }
+  *, *::before, *::after { box-sizing:inherit; }
+  html, body { margin:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  .seq { position:relative; height:500vh; }
+  .stage { position:sticky; top:0; width:100%; height:100vh; height:100dvh; overflow:hidden; background:#000; }
+  .stage video { width:100%; height:100%; object-fit:contain; display:block; background:#000; }
+  .stage.has-logo video { height:calc(100% - 14vh); margin-top:14vh; }
+  .logo { position:absolute; left:50%; top:calc(env(safe-area-inset-top,0px) + 3.5vh); width:min(54vw,280px); height:auto; opacity:0; transform:translate(-50%,-10px); z-index:2; pointer-events:none; filter:drop-shadow(0 0 14px rgba(245,197,24,.25)); will-change:opacity,transform; }
+  .progress { position:absolute; left:0; top:0; height:3px; width:100%; background:var(--gold); transform-origin:0 50%; transform:scaleX(0); z-index:3; }
+  .hint { position:absolute; left:0; right:0; bottom:calc(env(safe-area-inset-bottom,0px) + 18px); text-align:center; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); z-index:3; transition:opacity .4s; pointer-events:none; }
+  .hint span { display:block; margin-top:6px; font-size:18px; animation:bob 1.4s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+  .loader { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; background:#000; z-index:5; transition:opacity .5s; }
+  .loader.done { opacity:0; pointer-events:none; }
+  .bar { width:55%; max-width:260px; height:3px; background:#2a2a2a; border-radius:2px; overflow:hidden; }
+  .bar i { display:block; height:100%; width:0; background:var(--gold); }
+  .loader p { margin:0; font-size:12px; letter-spacing:.15em; text-transform:uppercase; color:#aaa; }
+
+  /* ---- Seção 4: formulário ---- */
+  .contact { position:relative; min-height:100vh; min-height:100dvh; padding:calc(env(safe-area-inset-top,0px) + 40px) 22px calc(env(safe-area-inset-bottom,0px) + 40px); display:flex; flex-direction:column; align-items:center; justify-content:center; background:radial-gradient(120% 60% at 50% 0%, rgba(245,197,24,.16), transparent 60%), #000; }
+  .contact .brand { width:min(48vw,220px); height:auto; margin:0 0 22px; filter:drop-shadow(0 0 14px rgba(245,197,24,.25)); }
+  .contact h2 { margin:0 0 8px; text-align:center; font-size:clamp(26px,8vw,34px); line-height:1.08; font-weight:900; text-transform:uppercase; letter-spacing:-.01em; }
+  .contact h2 em { font-style:normal; color:var(--gold); }
+  .contact .sub { margin:0 0 24px; max-width:34ch; text-align:center; font-size:15px; line-height:1.45; color:#c9c9c9; }
+  .lead-form { width:100%; max-width:420px; display:flex; flex-direction:column; gap:14px; }
+  .field label { display:block; margin:0 0 6px 2px; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--gold); }
+  .field input, .field select, .field textarea { width:100%; padding:14px 14px; border:1px solid #3a3320; border-radius:12px; background:#0e0e0e; color:#fff; font:inherit; font-size:16px; outline:none; transition:border-color .2s, box-shadow .2s; -webkit-appearance:none; appearance:none; }
+  .field select { background-image:linear-gradient(45deg,transparent 50%,var(--gold) 50%),linear-gradient(135deg,var(--gold) 50%,transparent 50%); background-position:calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size:6px 6px,6px 6px; background-repeat:no-repeat; padding-right:38px; }
+  .field textarea { min-height:84px; resize:vertical; }
+  .field input::placeholder, .field textarea::placeholder { color:#6d6d6d; }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(245,197,24,.22); }
+  .field.err input, .field.err select { border-color:#ff6b5e; }
+  .cta { margin-top:6px; display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:17px 18px; border:0; border-radius:14px; background:linear-gradient(180deg,#ffd740,#f5c518); color:#111; font:inherit; font-size:16px; font-weight:900; letter-spacing:.02em; text-transform:uppercase; cursor:pointer; box-shadow:0 8px 28px rgba(245,197,24,.28); }
+  .cta:active { transform:translateY(1px); }
+  .cta svg { width:22px; height:22px; flex:none; }
+  .note { margin:2px 0 0; text-align:center; font-size:12px; color:#8a8a8a; }
+  .msg { margin:0; text-align:center; font-size:13px; color:#ff9a8f; min-height:1em; }
+
+
+  /* ---- Seção 2 (desktop): texto dos botões em HTML ---- */
+  .tx-layer { position:absolute; display:none; z-index:2; pointer-events:none; --u:1; }
+  .tx { position:absolute; opacity:0; will-change:opacity; text-shadow:0 1px 2px rgba(0,0,0,.6); }
+  .tx .n { position:absolute; left:0; top:0; font-family:"Oswald","Arial Narrow",Impact,sans-serif; font-weight:700; font-size:calc(var(--u)*34px); line-height:1; color:#f5c518; }
+  .tx .t { position:absolute; font-family:"Oswald","Arial Narrow",Impact,sans-serif; font-weight:700; font-size:calc(var(--u)*19px); line-height:calc(var(--u)*22px); color:#fff; text-transform:uppercase; letter-spacing:.01em; white-space:nowrap; }
+  .tx .d { position:absolute; font-family:"Roboto","Segoe UI",system-ui,sans-serif; font-weight:500; font-size:calc(var(--u)*12px); line-height:calc(var(--u)*14.6px); color:#e6e6e6; }
+  @media (min-width: 900px) {
+    .contact { flex-direction:row; justify-content:center; align-items:center; gap:clamp(48px,7vw,120px); padding:60px clamp(32px,6vw,96px); background:radial-gradient(80% 90% at 20% 20%, rgba(245,197,24,.16), transparent 60%), #000; }
+    .contact-copy { flex:1 1 0; max-width:520px; display:flex; flex-direction:column; align-items:flex-start; }
+    .contact .brand { width:240px; margin-bottom:34px; }
+    .contact h2 { text-align:left; font-size:clamp(40px,4.4vw,64px); margin-bottom:18px; }
+    .contact .sub { text-align:left; max-width:44ch; font-size:18px; margin:0; }
+    .lead-form { flex:1 1 0; max-width:480px; padding:34px; border:1px solid #3a3320; border-radius:22px; background:rgba(255,255,255,.03); box-shadow:0 20px 80px rgba(0,0,0,.6), inset 0 0 0 1px rgba(245,197,24,.06); }
+    .hint { font-size:13px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hint span { animation:none; } }
+</style>
+</head>
+<body>
+
+<section class="seq" id="seq1" data-src="d1.mp4" data-first="true">
+  <div class="stage">
+    <div class="progress"></div>
+    <video aria-label="Animação: Nexora Marketing Digital, capture cada lead" muted playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback></video>
+    <div class="hint">Role para baixo<span>↓</span></div>
+    <div class="loader"><div class="bar"><i></i></div><p>0%</p></div>
+  </div>
+</section>
+
+<section class="seq" id="seq2" data-src="d2.mp4">
+  <div class="stage">
+    <div class="progress"></div>
+    <video aria-label="Animação: Agência de Marketing Digital" muted playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback></video>
+    <div class="tx-layer" id="tx-layer">
+      <div class="tx" data-a="0.600" data-b="0.665" style="left:0;top:0;width:100%;height:100%"><span class="n" style="left:calc(var(--u)*171px);top:calc(var(--u)*137px)">01</span><span class="t" style="left:calc(var(--u)*213px);top:calc(var(--u)*137px)">ESTRATÉGIA<br>PERSONALIZADA</span><span class="d" style="left:calc(var(--u)*171px);top:calc(var(--u)*182px);width:calc(var(--u)*188px)">Criamos estratégias sob medida para o seu negócio, com foco em resultados reais.</span></div>
+      <div class="tx" data-a="0.612" data-b="0.677" style="left:0;top:0;width:100%;height:100%"><span class="n" style="left:calc(var(--u)*170px);top:calc(var(--u)*271px)">02</span><span class="t" style="left:calc(var(--u)*214px);top:calc(var(--u)*275px)">GESTÃO DE<br>REDES SOCIAIS</span><span class="d" style="left:calc(var(--u)*170px);top:calc(var(--u)*321px);width:calc(var(--u)*198px)">Cuidamos das suas redes sociais com conteúdo estratégico e engajamento constante.</span></div>
+      <div class="tx" data-a="0.624" data-b="0.689" style="left:0;top:0;width:100%;height:100%"><span class="n" style="left:calc(var(--u)*187px);top:calc(var(--u)*409px)">03</span><span class="t" style="left:calc(var(--u)*229px);top:calc(var(--u)*413px)">CRIAÇÃO DE<br>CONTEÚDO</span><span class="d" style="left:calc(var(--u)*187px);top:calc(var(--u)*457px);width:calc(var(--u)*190px)">Produzimos conteúdos criativos e relevantes para fortalecer sua marca e atrair mais audiência.</span></div>
+      <div class="tx" data-a="0.636" data-b="0.701" style="left:0;top:0;width:100%;height:100%"><span class="n" style="left:calc(var(--u)*1017px);top:calc(var(--u)*137px)">04</span><span class="t" style="left:calc(var(--u)*1062px);top:calc(var(--u)*146px)">AGENDAMENTO</span><span class="d" style="left:calc(var(--u)*1017px);top:calc(var(--u)*182px);width:calc(var(--u)*184px)">Organizamos e programamos suas publicações para manter sua presença sempre ativa.</span></div>
+      <div class="tx" data-a="0.648" data-b="0.713" style="left:0;top:0;width:100%;height:100%"><span class="n" style="left:calc(var(--u)*1024px);top:calc(var(--u)*273px)">05</span><span class="t" style="left:calc(var(--u)*1066px);top:calc(var(--u)*277px)">ANÚNCIOS<br>EFICIENTES</span><span class="d" style="left:calc(var(--u)*1024px);top:calc(var(--u)*321px);width:calc(var(--u)*182px)">Anúncios segmentados para alcançar o público certo e maximizar seu retorno.</span></div>
+      <div class="tx" data-a="0.660" data-b="0.725" style="left:0;top:0;width:100%;height:100%"><span class="n" style="left:calc(var(--u)*1007px);top:calc(var(--u)*411px)">06</span><span class="t" style="left:calc(var(--u)*1052px);top:calc(var(--u)*420px)">MAIS VENDAS</span><span class="d" style="left:calc(var(--u)*1007px);top:calc(var(--u)*455px);width:calc(var(--u)*190px)">Transforme seguidores em clientes e impulsione suas vendas com o marketing certo.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="seq" id="seq3" data-src="d3.mp4">
+  <div class="stage">
+    <div class="progress"></div>
+    <video aria-label="Animação: Por que investir no digital? Presença digital" muted playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback></video>
+  </div>
+</section>
+
+<section class="contact" id="contato">
+  <div class="contact-copy">
+  <img class="brand" src="logo-nexora.png" alt="Nexora Marketing Digital">
+  <h2>Quero posicionar <em>minha marca</em></h2>
+  <p class="sub">Preencha em 30 segundos e continue a conversa direto no WhatsApp com a nossa equipe.</p>
+  </div>
+  <form class="lead-form" id="lead-form" novalidate>
+    <div class="field"><label for="nome">Seu nome</label><input id="nome" name="nome" type="text" autocomplete="name" placeholder="Como podemos te chamar?" required></div>
+    <div class="field"><label for="marca">Marca ou empresa</label><input id="marca" name="marca" type="text" autocomplete="organization" placeholder="Nome do seu negócio" required></div>
+    <div class="field"><label for="interesse">O que você precisa?</label>
+      <select id="interesse" name="interesse" required>
+        <option value="" selected disabled>Escolha uma opção</option>
+        <option>Estratégia personalizada</option>
+        <option>Gestão de redes sociais</option>
+        <option>Criação de conteúdo</option>
+        <option>Anúncios e tráfego pago</option>
+        <option>Análise e relatórios</option>
+        <option>Quero um pacote completo</option>
+      </select>
+    </div>
+    <div class="field"><label for="detalhes">Conte um pouco mais (opcional)</label><textarea id="detalhes" name="detalhes" placeholder="Seu objetivo, segmento, instagram..."></textarea></div>
+    <p class="msg" id="msg" role="alert"></p>
+    <button class="cta" type="submit">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.95L2 22l5.2-1.5A9.9 9.9 0 1 0 12.04 2Zm5.8 14.1c-.25.7-1.4 1.3-1.95 1.35-.5.05-1.1.07-1.8-.12-.4-.13-.95-.3-1.6-.6-2.8-1.2-4.6-4-4.75-4.2-.13-.2-1.1-1.45-1.1-2.8 0-1.3.7-1.95.95-2.2.25-.27.55-.33.75-.33h.5c.17 0 .4-.05.6.45.25.55.8 1.9.87 2.05.07.13.1.3.02.5-.1.2-.15.32-.3.5-.15.17-.3.37-.45.5-.15.15-.3.3-.13.6.17.3.75 1.25 1.6 2 1.1.98 2.03 1.3 2.33 1.43.3.15.47.12.65-.07.17-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.7.8 2 .95.3.15.5.22.57.35.08.12.08.72-.17 1.4Z"/></svg>
+      Chamar no WhatsApp
+    </button>
+    <p class="note">Ao enviar, o WhatsApp abre com a sua mensagem pronta. Nada é armazenado nesta página.</p>
+  </form>
+</section>
+
+<script>
+(function () {
+  function Sequence(section, onReady) {
+    var video = section.querySelector("video");
+    var progress = section.querySelector(".progress");
+    var hint = section.querySelector(".hint");
+    var logo = section.querySelector(".logo");
+    var loader = section.querySelector(".loader");
+    var bar = loader && loader.querySelector("i"), pct = loader && loader.querySelector("p");
+    var target = 0, current = 0, ready = false, LERP = 0.22;
+    var tl = section.querySelector(".tx-layer");
+    var txs = tl ? tl.querySelectorAll(".tx") : [];
+    function fit() {
+      if (!tl || !video.videoWidth) return;
+      var Wd = video.clientWidth, Hd = video.clientHeight, ar = video.videoWidth / video.videoHeight, w, hh;
+      if (Wd / Hd > ar) { hh = Hd; w = hh * ar; } else { w = Wd; hh = w / ar; }
+      tl.style.width = w + "px"; tl.style.height = hh + "px";
+      tl.style.left = (video.offsetLeft + (Wd - w) / 2) + "px";
+      tl.style.top = (video.offsetTop + (Hd - hh) / 2) + "px";
+      tl.style.setProperty("--u", w / 1280);
+      tl.style.display = "block";
+    }
+    video.addEventListener("loadedmetadata", fit);
+    window.addEventListener("resize", fit);
+    function reveal() {
+      if (!txs.length) return;
+      var p = video.duration ? Math.min(Math.max(video.currentTime / video.duration, 0), 1) : 0;
+      for (var k = 0; k < txs.length; k++) {
+        var a = +txs[k].dataset.a, b = +txs[k].dataset.b, x = Math.min(Math.max((p - a) / (b - a), 0), 1);
+        txs[k].style.opacity = x * x * (3 - 2 * x);
+      }
+    }
+    video.addEventListener("seeked", reveal);
+
+    this.video = video;
+    this.load = function () {
+      video.src = section.dataset.src;
+      video.load();
+    };
+
+    function showProgress() {
+      if (!loader || ready || !video.duration) return;
+      var b = video.buffered;
+      var p = b.length ? Math.min(100, Math.round(b.end(b.length - 1) / video.duration * 100)) : 0;
+      bar.style.width = p + "%"; pct.textContent = p + "%";
+    }
+    video.addEventListener("progress", showProgress);
+
+    video.addEventListener("loadeddata", function () {
+      if (ready) return;
+      ready = true;
+      if (loader) { bar.style.width = "100%"; pct.textContent = "100%"; loader.classList.add("done"); }
+      fit(); update(); reveal();
+      if (onReady) onReady();
+    });
+
+    function update() {
+      var r = section.getBoundingClientRect();
+      var max = section.offsetHeight - window.innerHeight;
+      var f = max > 0 ? Math.min(Math.max(-r.top / max, 0), 1) : 0;
+      target = (video.duration || 0) * f;
+      progress.style.transform = "scaleX(" + f + ")";
+      if (hint) hint.style.opacity = f > 0.02 ? 0 : 1;
+      if (logo) {
+        var o = Math.min(Math.max((f - 0.06) / 0.3, 0), 1);
+        logo.style.opacity = o;
+        logo.style.transform = "translate(-50%," + (-10 * (1 - o)) + "px)";
+      }
+    }
+
+    this.update = update;
+    this.tick = function () {
+      if (!ready || !video.duration) return;
+      current += (target - current) * LERP;
+      if (Math.abs(target - current) < 0.004) current = target;
+      var t = Math.min(Math.max(current, 0), video.duration - 0.001);
+      if (!video.seeking && Math.abs(video.currentTime - t) > 0.012) video.currentTime = t;
+      reveal();
+    };
+  }
+
+  var s3 = new Sequence(document.getElementById("seq3"));
+  var s2 = new Sequence(document.getElementById("seq2"), function () { s3.load(); }); // 3ª carrega depois da 2ª
+  var s1 = new Sequence(document.getElementById("seq1"), function () { s2.load(); }); // 2ª carrega depois da 1ª
+  var seqs = [s1, s2, s3];
+  s1.load();
+
+  // iOS/Android: "destrava" os vídeos no primeiro toque (necessário em alguns celulares / modo economia)
+  function unlock() {
+    seqs.forEach(function (s) { var p = s.video.play(); if (p && p.then) p.then(function () { s.video.pause(); }).catch(function () {}); });
+    window.removeEventListener("touchstart", unlock);
+  }
+  window.addEventListener("touchstart", unlock, { passive: true, once: true });
+
+  function onScroll() { seqs.forEach(function (s) { s.update(); }); }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  document.addEventListener("loadedmetadata", onScroll, true);
+  onScroll();
+
+  (function loop() { seqs.forEach(function (s) { s.tick(); }); requestAnimationFrame(loop); })();
+
+  // ---- Formulário → WhatsApp ----
+  // TROQUE pelo número da Nexora: código do país + DDD + número, só dígitos (ex.: 5551999998888)
+  var WHATSAPP_NUMBER = "5551900000000";
+
+  var form = document.getElementById("lead-form");
+  var msg = document.getElementById("msg");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var g = function (id) { return document.getElementById(id); };
+    var nome = g("nome").value.trim(), marca = g("marca").value.trim(),
+        interesse = g("interesse").value, detalhes = g("detalhes").value.trim();
+    var ok = true;
+    [["nome", nome], ["marca", marca], ["interesse", interesse]].forEach(function (p) {
+      var box = g(p[0]).closest(".field");
+      var bad = !p[1];
+      box.classList.toggle("err", bad);
+      if (bad) ok = false;
+    });
+    if (!ok) { msg.textContent = "Preencha os campos destacados para continuar."; return; }
+    msg.textContent = "";
+    var text = "Olá! Quero posicionar minha marca.\n\n" +
+      "Nome: " + nome + "\n" +
+      "Marca/empresa: " + marca + "\n" +
+      "Preciso de: " + interesse +
+      (detalhes ? "\nDetalhes: " + detalhes : "");
+    var url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text);
+    var w = window.open(url, "_blank", "noopener");
+    if (!w) { window.location.href = url; }
+  });
+})();
+</script>
+</body>
+</html>
